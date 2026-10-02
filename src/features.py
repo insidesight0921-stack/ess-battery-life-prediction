@@ -70,6 +70,29 @@ def summary_features(g):
     }
 
 
+# 피처 선택 후보 (타깃·메타 정보 제외 전체)
+CANDIDATE_FEATURES = [
+    "QD_c2", "QD_max_minus_c2", "QD_c100_minus_c2", "QD_slope_91_100", "QD_intercept_91_100",
+    "IR_c2", "IR_c100_minus_c2", "Tmax_mean", "Tavg_mean", "chargetime_mean_5",
+    "dQ_log_var", "dQ_log_min", "dQ_log_mean", "dQ_skew", "dQ_kurt", "dQ_at_2V",
+]
+
+
+def select_features(train_df, target="log_cycle_life", r_min=0.4, max_pair_r=0.85):
+    """
+    DAY1 설계서의 선택 규칙을 코드로 고정 — 반드시 Train 부분만 넣을 것 (Valid/Test 정보 누수 방지)
+    1) 타깃과 |r| >= r_min 인 피처를 |r| 큰 순서로 정렬
+    2) 이미 고른 피처와 |r| > max_pair_r 이면 버림 (다중공선성)
+    """
+    r = train_df[CANDIDATE_FEATURES + [target]].corr()[target][CANDIDATE_FEATURES]
+    corr = train_df[CANDIDATE_FEATURES].corr().abs()
+    keep = []
+    for c in r[r.abs() >= r_min].abs().sort_values(ascending=False).index:
+        if all(corr.loc[c, k] <= max_pair_r for k in keep):
+            keep.append(c)
+    return keep
+
+
 def build_features(name):
     df = pd.read_pickle(PROC_DIR / f"{name}_summary_clean.pkl")
     qdlin = pd.read_pickle(PROC_DIR / f"{name}_qdlin.pkl")

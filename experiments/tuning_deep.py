@@ -21,7 +21,8 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVR
 from xgboost import XGBRegressor
 
-from src.train import (BASELINE_FEATURES, FEATURES, ROOT, SEED, TARGET, PolicyGroupKFold, load_features,
+from src.features import select_features
+from src.train import (BASELINE_FEATURES, ROOT, SEED, TARGET, PolicyGroupKFold, load_features,
                        policy_holdout)
 
 warnings.filterwarnings("ignore")
@@ -65,6 +66,7 @@ for seed in range(10):
     base.fit(tr[BASELINE_FEATURES], tr[TARGET])
     rows.append([seed, "Baseline", mape(10 ** tr[TARGET], 10 ** inner) * 100,
                  mape(10 ** va[TARGET], 10 ** base.predict(va[BASELINE_FEATURES])) * 100])
+    FEATURES = select_features(tr)
     for name, m in candidates(cv).items():
         m.fit(tr[FEATURES], tr[TARGET])
         # 튜닝이 고른 조합의 CV 예측 MAPE (같은 폴드에서 다시 계산)

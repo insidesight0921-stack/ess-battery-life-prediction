@@ -34,6 +34,7 @@ from sklearn.model_selection import BaseCrossValidator, GridSearchCV, GroupKFold
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 
+from src.features import select_features
 from src.preprocess import PROC_DIR, ROOT
 
 warnings.filterwarnings("ignore")
@@ -43,15 +44,9 @@ SEED = 42
 TARGET = "log_cycle_life"
 TARGET_PAPER_MAPE = 9.1   # 원 논문 목표 (%)
 
-# EDA·Train 상관 기반으로 선택한 피처 (01_EDA.ipynb Q3·Q4·Q5)
-FEATURES = [
-    "dQ_log_var",         # Train r = -0.84, 핵심 (ΔQ 분산)
-    "dQ_log_min",         # -0.55, ΔQ 최대 하락폭
-    "dQ_at_2V",           # +0.69, 저전압 구간 ΔQ
-    "dQ_skew",            # -0.51, ΔQ 곡선 모양
-    "QD_slope_91_100",    # +0.44, 초기 열화 속도
-    "chargetime_mean_5",  # +0.57, 급속충전 영향
-]
+# 피처: src.features.select_features로 Train 부분에서만 선택 (규칙: |r|>=0.4, 서로 |r|>0.85면 하나만)
+#   v2까지는 DAY1에 손으로 고른 6개를 고정해 썼는데, 규칙을 코드로 적용해 보니 불일치 발견
+#   (dQ_at_2V는 dQ_log_var와 0.88로 규칙 위반, QD_slope_91_100 대신 QD_c100_minus_c2가 맞음) → 규칙을 코드로 고정
 BASELINE_FEATURES = ["dQ_log_var"]
 
 # 최종 모델: Batch1 안에서만 결정 (experiments/model_selection.py, 정책 단위 Hold-out 20회 반복)
@@ -86,7 +81,7 @@ def policy_holdout(df, test_size=0.2, seed=SEED):
 
 
 # ---------------------------------------------------------------- 모델
-def build_models(cv):
+def build_models(cv, feats):
     """후보 모델 4개. ElasticNet, LightGBM은 Train 안에서 GridSearch로 튜닝"""
     enet = GridSearchCV(
         make_pipeline(StandardScaler(), ElasticNet(max_iter=50_000, random_state=SEED)),
@@ -103,9 +98,9 @@ def build_models(cv):
 
     return {
         "Baseline (Variance)": (make_pipeline(StandardScaler(), LinearRegression()), BASELINE_FEATURES),
-        "ElasticNet": (enet, FEATURES),
-        "LightGBM": (lgbm, FEATURES),
-        "Voting (EN+LGBM)": ("voting", FEATURES),   # 튜닝된 두 모델로 학습 시점에 구성
+        "ElasticNet": (enet, feats),
+        "LightGBM": (lgbm, feats),
+        "Voting (EN+LGBM)": ("voting", feats),   # 튜닝된 두 모델로 학습 시점에 구성
     }
 
 
@@ -172,14 +167,16 @@ def main():
     assert not set(tr["policy"]) & set(va["policy"]), "정책 누수"
     tests = {"Test (Batch2)": data["b2"], "Test (Batch3)": data["b3"]}
     cv = PolicyGroupKFold(b1["policy"].to_dict(), n_splits=5)
+    feats = select_features(tr)
+    print("선택 피처 (Train 기준):", feats)
     print(f"Train {len(tr)}셀({tr['policy'].nunique()}정책) / Valid {len(va)}셀({va['policy'].nunique()}정책) "
           f"/ Test B2 {len(data['b2'])}셀, B3 {len(data['b3'])}셀")
 
     all_rows, all_preds, fitted = {}, [], {}
-    for name, (model, feats) in build_models(cv).items():
+    for name, (model, mfeats) in build_models(cv, feats).items():
         if model == "voting":
             model = make_voting(fitted["ElasticNet"], fitted["LightGBM"])
-        rows, preds, fitted[name] = evaluate(name, model, feats, tr, va, tests, cv)
+        rows, preds, fitted[name] = evaluate(name, model, mfeats, tr, va, tests, cv)
         all_rows[name] = rows
         all_preds.append(preds)
         print(f"  {name:22s} " + " | ".join(f"{k.split(' (')[0]} {v['MAPE(%)']:.1f}%"
@@ -187,7 +184,7 @@ def main():
 
     en = fitted["ElasticNet"]
     print("\nElasticNet best:", en.best_params_)
-    coef = pd.Series(en.best_estimator_[-1].coef_, index=FEATURES).sort_values(key=abs, ascending=False)
+    coef = pd.Series(en.best_estimator_[-1].coef_, index=feats).sort_values(key=abs, ascending=False)
     print("ElasticNet 계수 (표준화 기준):\n", coef.round(4).to_string())
     print("LightGBM best:", fitted["LightGBM"].best_params_)
 

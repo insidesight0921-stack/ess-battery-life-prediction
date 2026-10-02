@@ -209,3 +209,17 @@
   - S&P Global(2026, pv magazine 인용): 셀·모듈이 BESS CAPEX의 25~45%
   - NREL ATB 2024: 배터리 팩은 시스템 비용의 큰 부분이지만 절반 미만
   - → 30~40%는 범위 안이지만 "교체 비용"이 아니라 "초기 설비비 중 셀·모듈 비중"이 정확한 표현 → README 수정
+
+### DAY2-9. 노트북 정리 중 피처 선택 불일치 발견 → 수정·재실행
+**발견**: DAY1 설계서 규칙(|r|≥0.4, 서로 |r|>0.85면 하나만)을 코드로 적용하니 손으로 고른 6개와 다름
+- dQ_at_2V는 dQ_log_var와 0.88 → 규칙상 제외 대상이었음
+- QD_slope_91_100보다 QD_c100_minus_c2가 상관이 커서 먼저 선택되고, 둘은 0.89라 slope가 빠져야 했음
+**결정**: 규칙을 `src/features.select_features`로 고정, **Train 부분에서만** 선택하도록 파이프라인·실험 전부 수정 후 재실행
+**결과**
+- 정책 Hold-out(seed 42) Train 29셀 기준 선택: dQ_log_var, QD_c100_minus_c2, dQ_skew, chargetime_mean_5
+- 분할 20회 반복 시 선택 횟수: dQ_log_var 20, chargetime 17, dQ_skew 17, QD_c100_minus_c2 13, dQ_log_min 13 → 확실한 건 dQ_log_var 하나
+- 모델 선택(Valid 평균): Baseline 9.55 < ElasticNet 10.51 < Voting 11.28 < LightGBM 12.73 → **결론 동일 (Baseline)**
+- 추가 모델: Lasso 10.39, Linear 10.59, Huber 10.67(11/20회 승) … 규제 없는 선형이 안정됨(표준편차 10.5 → 2.9) = 중복 피처 제거 효과
+- 넓은 튜닝: 여전히 Baseline 최고, SVR 착시 CV 10.1 → Valid 13.5
+**배운 점**: 규칙을 글로만 적으면 적용이 흔들린다 → 코드로 고정해야 재현 가능. 또 피처 선택도 Train에서만 해야 Valid가 공정함
+**노트북 정리**: 01(데이터 품질 점검 → Q1~Q5 → 요약), 02(피처 계산 → 선택 규칙 → 안정성 → VIF), 03(학습 → 모델 선택 → 진단 → 오류 분석)으로 재구성, 모두 처음부터 실행해 에러 없음 확인

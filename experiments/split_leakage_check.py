@@ -10,11 +10,12 @@ from sklearn.model_selection import GroupShuffleSplit, train_test_split
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 from src.preprocess import PROC_DIR
-from src.train import FEATURES, BASELINE_FEATURES, TARGET
+from src.features import select_features
+from src.train import BASELINE_FEATURES, TARGET
 
 b1 = pd.read_csv(PROC_DIR / "features_b1.csv", index_col=0)
 models = {"Baseline": (lambda: make_pipeline(StandardScaler(), LinearRegression()), BASELINE_FEATURES),
-          "ElasticNet": (lambda: make_pipeline(StandardScaler(), ElasticNet(alpha=0.02, l1_ratio=0.5, max_iter=50000)), FEATURES)}
+          "ElasticNet": (lambda: make_pipeline(StandardScaler(), ElasticNet(alpha=0.02, l1_ratio=0.5, max_iter=50000)), None)}
 rows = []
 for seed in range(30):
     splits = {"random": train_test_split(b1, test_size=0.2, random_state=seed)}
@@ -23,6 +24,7 @@ for seed in range(30):
     for sname, (tr, va) in splits.items():
         leak = va.policy.isin(tr.policy).mean()
         for mname, (mk, feats) in models.items():
+            feats = feats or select_features(tr)
             m = mk().fit(tr[feats], tr[TARGET])
             rows.append([seed, sname, mname, leak, mape(10**va[TARGET], 10**m.predict(va[feats])) * 100])
 df = pd.DataFrame(rows, columns=["seed", "split", "model", "valid_leak_ratio", "valid_mape"])

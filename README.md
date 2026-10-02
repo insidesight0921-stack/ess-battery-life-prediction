@@ -51,7 +51,7 @@
 
 ## 환경 설정
 ```bash
-git clone https://github.com/{github-username}/ess-battery-life-prediction
+git clone https://github.com/insidesight0921-stack/ess-battery-life-prediction
 cd ess-battery-life-prediction
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
@@ -96,41 +96,48 @@ python -m src.train          # 학습·평가 → results/model_performance.csv
 ## Modeling
 
 ### 피처 엔지니어링 전략
-- 원칙 : 사이클 100 이하 데이터만 사용(조기 예측, 미래 정보 누수 방지), 피처 선택은 Batch1 정보만 사용
-- 셀 1개 = 1행으로 요약 : ΔQ(V) 통계량(분산·최소·평균·왜도·첨도·2V 값), 초기 용량·열화 기울기, 내부저항, 온도, 충전시간
-- 선별 : Batch1 상관 |r| ≥ 0.4, 서로 |r| > 0.85면 하나만 → 6개
-  (`dQ_log_var`, `dQ_log_min`, `dQ_at_2V`, `dQ_skew`, `QD_slope_91_100`, `chargetime_mean_5`)
-- 결과적으로 가장 쓸모 있었던 피처는 **`dQ_log_var` 하나** (아래 모델 선택 참고)
+(상세: `notebooks/02_feature_engineering.ipynb`, `src/features.py`)
+- 원칙 : 사이클 100 이하 데이터만 사용(조기 예측, 미래 정보 누수 방지), 피처 선택은 **Train 부분만** 보고 결정
+- 셀 1개 = 1행으로 요약 : ΔQ(V) 통계량(분산·최소·평균·왜도·첨도·2V 값), 초기 용량·변화량·기울기, 내부저항, 온도, 충전시간 (후보 16개)
+- 선택 규칙(`select_features`) : 타깃과 |r| ≥ 0.4인 피처를 |r| 순으로 고르되, 이미 고른 피처와 |r| > 0.85면 제외
+  - 실제 파이프라인(정책 Hold-out 후 Train 29셀) 결과 : `dQ_log_var`, `QD_c100_minus_c2`, `dQ_skew`, `chargetime_mean_5`
+  - VIF : 후보 전체 최대 수만 → 선택 후 3.2 이하
+- 선택 안정성 : 분할을 20번 바꿔 다시 고르면 **`dQ_log_var`만 20/20**, 나머지는 13~17/20으로 들쭉날쭉 → 확실한 신호는 하나뿐
+- 시행착오 : DAY1에는 규칙을 적어 두고 손으로 6개를 골랐는데, 코드로 적용해 보니 규칙과 달랐음(`dQ_at_2V`는 `dQ_log_var`와 0.88로 위반). 규칙을 코드로 고정하고 전체 재실행 (결론은 동일)
 
 ### 데이터 분할
 - Batch1 → Train 80% / Valid 20%를 **충전 정책 단위**로 분할 (같은 정책 셀이 양쪽에 들어가지 않음)
   - 처음엔 셀 단위 무작위 분할 → Valid 8셀 중 5셀이 같은 정책의 짝 셀을 Train에 두고 있었음
-  - seed 30회 비교: 무작위 분할이 Valid MAPE를 0.5~0.7%p 낙관적으로 보이게 함 (`experiments/split_leakage_check.py`)
+  - seed 30회 비교: 무작위 분할이 Valid MAPE를 0.4~0.7%p 낙관적으로 보이게 함 (`experiments/split_leakage_check.py`)
 - Train CV·튜닝도 정책 단위 GroupKFold
-- Batch2·3은 학습·튜닝·모델 선택에 사용하지 않음
+- Batch2·3은 학습·튜닝·피처 선택·모델 선택에 사용하지 않음
 
 ### 모델 선택 및 근거
 - 후보 모델 (DAY1 전략) : 선형회귀(Baseline, `dQ_log_var` 1개), ElasticNet, LightGBM, Voting(ElasticNet+LightGBM)
-- 추가 비교 : Linear(6피처), Ridge, Lasso, Huber, SVR, KNN, Gaussian Process, RandomForest, XGBoost + 넓은 하이퍼파라미터 탐색
+- 추가 비교 : Linear(규제 없음), Ridge, Lasso, Huber, SVR, KNN, Gaussian Process, RandomForest, XGBoost + 넓은 하이퍼파라미터 탐색
 - 최종 모델 : **Baseline — `dQ_log_var` 1개 선형회귀** (원 논문의 "Variance 모델"과 같은 구조)
-- 선택 이유 (정책 단위 Hold-out 20회 반복, Valid만 사용)
+- 선택 이유 (정책 단위 Hold-out 20회 반복, 매번 Train에서 피처 선택·튜닝, Valid만 사용)
 
 | 모델 | Valid MAPE 평균 | 표준편차 | Baseline보다 나은 횟수 |
 |---|---|---|---|
 | **Baseline** | **9.55%** | 2.56 | — |
-| Lasso | 10.82% | 2.16 | 6/20 |
-| ElasticNet | 11.11% | 2.13 | 6/20 |
-| RandomForest | 11.89% | 3.21 | 5/20 |
-| Voting (EN+LGBM) | 12.15% | 2.67 | 2/20 |
-| LightGBM | 13.67% | 3.98 | 2/20 |
-| Linear (6피처, 규제 없음) | 18.07% | 10.49 | 5/20 |
+| Lasso | 10.39% | 2.41 | 8/20 |
+| ElasticNet | 10.51% | 2.47 | 8/20 |
+| Linear (규제 없음) | 10.59% | 2.86 | 9/20 |
+| Huber | 10.67% | 2.92 | 11/20 |
+| RandomForest | 11.27% | 3.00 | 6/20 |
+| Voting (EN+LGBM) | 11.28% | 2.77 | 2/20 |
+| LightGBM | 12.73% | 3.45 | 1/20 |
 
+- 해석
+  - Baseline이 평균·안정성 모두 가장 좋지만, 선형 계열과의 차이는 1%p 안팎으로 작음 → "Baseline보다 낫다는 일관된 증거가 있는 모델이 없다"가 정확한 표현
+  - Huber는 20번 중 11번 이겼지만 가끔 크게 틀려 평균이 1.1%p 나쁨
 - DAY1 전략(Voting)에서 바꾼 이유
   - Train 29셀 + 강한 단일 신호(r = −0.84) → 피처·모델을 복잡하게 할수록 정보보다 흔들림(분산)이 커짐
-  - ElasticNet도 L1 규제로 결국 `dQ_log_var` 위주가 됨
-  - 트리 계열(LightGBM·RF·XGBoost)과 KNN·SVR은 **Train 범위 밖 예측 불가** → Batch3 예측 최대가 870~912에 막힘
-  - 넓게 튜닝해도 못 이김. 오히려 튜닝 중 CV 점수가 실제보다 좋아 보이는 착시가 커짐 (SVR: CV 10.2% → Valid 16.4%)
-- 참고 Test에서는 Huber가 Batch3 11.1%로 Baseline(12.2%)보다 좋았지만, Test로 모델을 고르면 누수이므로 선택에 반영하지 않음
+  - ElasticNet도 L1 규제로 결국 `dQ_log_var` 위주가 됨 (나머지 계수 대부분 0)
+  - 트리 계열(LightGBM·RF·XGBoost)과 KNN은 **Train 범위 밖 예측 불가** → Batch3 예측 최대가 862~906에 막힘
+  - 넓게 튜닝해도 못 이김. 튜닝 중 CV 점수가 실제보다 좋아 보이는 착시도 생김 (SVR: CV 10.1% → Valid 13.5%)
+- 참고 Test에서는 Huber·규제 없는 선형이 Batch3 11.3%로 Baseline(12.2%)보다 좋았지만, Test로 모델을 고르면 누수이므로 선택에 반영하지 않음
 
 
 ## 성능 결과

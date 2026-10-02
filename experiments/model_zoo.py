@@ -1,7 +1,7 @@
 """
 DAY1 후보에 없던 모델 추가 비교 — 선택은 Batch1 Valid로만 (Test는 참고용으로 마지막에 한 번 표시)
 
-같은 조건: 같은 피처 6개(또는 1개), log(수명) 타깃, 정책 단위 Hold-out × 20회, Train 안에서 정책 GroupKFold 튜닝
+같은 조건: 같은 피처(Train에서 규칙으로 선택, 또는 dQ_log_var 1개), log(수명) 타깃, 정책 단위 Hold-out × 20회, Train 안에서 정책 GroupKFold 튜닝
 추가 모델과 넣은 이유
 - 선형 계열: LinearRegression(6피처, 규제 없음), Ridge(L2), Lasso(L1), Huber(이상치에 강한 손실)
   → "규제/손실 함수만 바꿔도 달라지나?"
@@ -24,7 +24,8 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVR
 from xgboost import XGBRegressor
 
-from src.train import (BASELINE_FEATURES, FEATURES, ROOT, SEED, TARGET, PolicyGroupKFold, load_features,
+from src.features import select_features
+from src.train import (BASELINE_FEATURES, ROOT, SEED, TARGET, PolicyGroupKFold, load_features,
                        policy_holdout)
 
 warnings.filterwarnings("ignore")
@@ -34,13 +35,13 @@ def gs(est, grid, cv):
     return GridSearchCV(est, grid, cv=cv, scoring="neg_mean_squared_error")
 
 
-def zoo(cv):
+def zoo(cv, FEATURES):
     sc = StandardScaler
     return {
         # 기준
         "Baseline (선형, dQ_log_var 1개)": (make_pipeline(sc(), LinearRegression()), BASELINE_FEATURES),
         # 선형 계열 (6피처)
-        "Linear (6피처, 규제 없음)": (make_pipeline(sc(), LinearRegression()), FEATURES),
+        "Linear (선택 피처, 규제 없음)": (make_pipeline(sc(), LinearRegression()), FEATURES),
         "Ridge": (gs(make_pipeline(sc(), Ridge()), {"ridge__alpha": np.logspace(-3, 2, 11)}, cv), FEATURES),
         "Lasso": (gs(make_pipeline(sc(), Lasso(max_iter=50_000)), {"lasso__alpha": np.logspace(-4, -1, 10)}, cv), FEATURES),
         "Huber": (gs(make_pipeline(sc(), HuberRegressor(max_iter=2000)),
@@ -68,7 +69,7 @@ cv = PolicyGroupKFold(b1["policy"].to_dict(), n_splits=5)
 rows = []
 for seed in range(20):
     tr, va = policy_holdout(b1, seed=seed)
-    for name, (model, feats) in zoo(cv).items():
+    for name, (model, feats) in zoo(cv, select_features(tr)).items():
         model.fit(tr[feats], tr[TARGET])
         rows.append([seed, name, mape(10 ** va[TARGET], 10 ** model.predict(va[feats])) * 100])
 df = pd.DataFrame(rows, columns=["seed", "model", "valid_mape"])
@@ -80,7 +81,7 @@ summary = pd.DataFrame({"Valid 평균": wide.mean(), "표준편차": wide.std(),
 # 참고용 Test: train.py와 같은 기본 분할(seed=42)로 한 번만 (선택에는 사용하지 않음)
 tr, va = policy_holdout(b1)
 ref = {}
-for name, (model, feats) in zoo(cv).items():
+for name, (model, feats) in zoo(cv, select_features(tr)).items():
     model.fit(tr[feats], tr[TARGET])
     p2, p3 = (10 ** model.predict(data[b][feats]) for b in ["b2", "b3"])
     ref[name] = [mape(data["b2"]["cycle_life"], p2) * 100, mape(data["b3"]["cycle_life"], p3) * 100, p3.max()]

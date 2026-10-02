@@ -11,7 +11,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-from src.train import (FEATURES, ROOT, TARGET, PolicyGroupKFold, build_models, load_features,
+from src.features import select_features
+from src.train import (ROOT, TARGET, PolicyGroupKFold, build_models, load_features,
                        policy_holdout)
 
 plt.rcParams.update({"font.family": ["AppleGothic", "Noto Sans CJK JP", "sans-serif"],
@@ -23,7 +24,9 @@ data = load_features()
 b1 = data["b1"]
 tr, va = policy_holdout(b1)
 cv = PolicyGroupKFold(b1["policy"].to_dict(), n_splits=5)
-models = build_models(cv)
+FEATURES = select_features(tr)
+print("선택 피처:", FEATURES)
+models = build_models(cv, FEATURES)
 enet, _ = models["ElasticNet"]
 lgbm, _ = models["LightGBM"]
 enet.fit(tr[FEATURES], tr[TARGET])
