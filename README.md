@@ -34,8 +34,8 @@
 │   ├── raw/                   # Kaggle .mat 원본 위치
 │   └── processed/             # 전처리 결과 (pkl/csv, git 제외)
 ├── notebooks/
-│   ├── 01_EDA.ipynb           # EDA 질문 5개 (Part 2)
-│   ├── 02_feature_engineering.ipynb
+│   ├── 01_EDA.ipynb           # 데이터 품질 점검(셀 정리 근거) + EDA 질문 5개
+│   ├── 02_feature_engineering.ipynb  # 피처 계산, 선택 규칙, 선택 안정성, VIF
 │   └── 03_modeling.ipynb      # 학습·모델 선택·진단·오류 분석 결과 정리
 ├── src/
 │   ├── preprocess.py          # .mat 로딩, 셀 정리, 노이즈 처리
@@ -50,8 +50,9 @@
 │   └── tuning_deep.py         # 넓은 하이퍼파라미터 탐색
 ├── results/
 │   ├── model_performance.csv  # 최종 모델 성능 (과제 포맷)
-│   ├── model_performance_all.csv
-│   ├── predictions.csv
+│   ├── model_performance_all.csv  # 후보 4개 전체
+│   ├── *_v1_random.csv, *_v2_handpicked.csv  # 수정 전 결과 보존 (무작위 분할 / 손으로 고른 피처)
+│   ├── predictions.csv        # 셀별 예측값
 │   └── figures/
 ├── docs/
 │   ├── DS-MINI-Design-울산_2반-변현준.pdf   # DAY1 모델 전략
@@ -128,6 +129,7 @@ python -m experiments.tuning_deep           # 넓은 하이퍼파라미터 탐�
 
 ### 피처 엔지니어링 전략
 (상세: `notebooks/02_feature_engineering.ipynb`, `src/features.py`)
+- 타깃 : `log10(cycle_life)` — 수명 분포의 치우침 완화(Train 왜도 0.29 → −0.01), 핵심 피처와의 선형성 개선(r −0.818 → −0.837), log 오차 ≈ 비율 오차라 평가지표 MAPE와 맞음
 - 원칙 : 사이클 100 이하 데이터만 사용(조기 예측, 미래 정보 누수 방지), 피처 선택은 **Train 부분만** 보고 결정
 - 셀 1개 = 1행으로 요약 : ΔQ(V) 통계량(분산·최소·평균·왜도·첨도·2V 값), 초기 용량·변화량·기울기, 내부저항, 온도, 충전시간 (후보 16개)
 - 선택 규칙(`select_features`) : 타깃과 |r| ≥ 0.4인 피처를 |r| 순으로 고르되, 이미 고른 피처와 |r| > 0.85면 제외
@@ -139,12 +141,19 @@ python -m experiments.tuning_deep           # 넓은 하이퍼파라미터 탐�
 ### 데이터 분할
 - Batch1 → Train 80% / Valid 20%를 **충전 정책 단위**로 분할 (같은 정책 셀이 양쪽에 들어가지 않음)
   - 처음엔 셀 단위 무작위 분할 → Valid 8셀 중 5셀이 같은 정책의 짝 셀을 Train에 두고 있었음
-  - seed 30회 비교: 무작위 분할이 Valid MAPE를 0.4~0.7%p 낙관적으로 보이게 함 (`experiments/split_leakage_check.py`)
+  - seed 30회 비교: 무작위 분할이 Valid MAPE를 0.3~0.7%p 낙관적으로 보이게 함 (`experiments/split_leakage_check.py`)
 - Train CV·튜닝도 정책 단위 GroupKFold
 - Batch2·3은 학습·튜닝·피처 선택·모델 선택에 사용하지 않음
 
 ### 모델 선택 및 근거
-- 후보 모델 (DAY1 전략) : 선형회귀(Baseline, `dQ_log_var` 1개), ElasticNet, LightGBM, Voting(ElasticNet+LightGBM)
+- 후보 모델 (DAY1 전략)과 EDA 근거
+
+| 후보 | 넣은 이유 (EDA 연결) | 미리 예상한 약점 |
+|---|---|---|
+| 선형회귀 (Baseline, `dQ_log_var` 1개) | 가장 강한 단일 신호(Q5, r = −0.84)만으로의 기준선, 원 논문 Variance 모델 | 정보 1개뿐 |
+| ElasticNet | Test가 Train 수명 범위 밖(Q1) → 선형이라 외삽 가능, 피처 간 상관 최대 0.98(Q5) → L1+L2 규제 | 비선형 관계를 못 잡음 |
+| LightGBM | 열화가 가속형(Q2) → 비선형 관계 포착 | Train 범위 밖 예측 불가 |
+| Voting (EN+LGBM) | 외삽(EN)과 비선형(LGBM)을 서로 보완하는 최종 후보 | 두 모델이 같은 방향으로 틀리면 효과 없음 |
 - 추가 비교 : Linear(규제 없음), Ridge, Lasso, Huber, SVR, KNN, Gaussian Process, RandomForest, XGBoost + 넓은 하이퍼파라미터 탐색
 - 최종 모델 : **Baseline — `dQ_log_var` 1개 선형회귀** (원 논문의 "Variance 모델"과 같은 구조)
 - 선택 이유 (정책 단위 Hold-out 20회 반복, 매번 Train에서 피처 선택·튜닝, Valid만 사용)
@@ -163,9 +172,9 @@ python -m experiments.tuning_deep           # 넓은 하이퍼파라미터 탐�
 <img src="results/figures/model_selection_boxplot.png" width="600" alt="모델별 Valid MAPE 분포">
 
 - 해석
-  - Baseline이 평균·안정성 모두 가장 좋지만, 선형 계열과의 차이는 1%p 안팎으로 작음 → "Baseline보다 낫다는 일관된 증거가 있는 모델이 없다"가 정확한 표현
+  - Baseline이 평균이 가장 낮고(9.55%) 표준편차도 다른 선형 계열과 비슷한 수준(2.4~2.9)이지만, 차이는 1%p 안팎으로 작음 → "Baseline보다 낫다는 일관된 증거가 있는 모델이 없다"가 정확한 표현
   - Huber는 20번 중 11번 이겼지만 가끔 크게 틀려 평균이 1.1%p 나쁨
-- DAY1 전략(Voting)에서 바꾼 이유
+- 결과적으로 DAY1 예상과 다르게 나온 점 → 최종 모델을 Voting에서 Baseline으로 바꾼 이유
   - Train 29셀 + 강한 단일 신호(r = −0.84) → 피처·모델을 복잡하게 할수록 정보보다 흔들림(분산)이 커짐
   - ElasticNet도 L1 규제로 결국 `dQ_log_var` 위주가 됨 (나머지 계수 대부분 0)
   - 트리 계열(LightGBM·RF·XGBoost)과 KNN은 **Train 범위 밖 예측 불가** → Batch3 예측 최대가 862~906에 막힘 (아래 그림 주황 점이 수평으로 누움)
