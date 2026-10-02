@@ -14,6 +14,19 @@
   - 분류를 택하지 않은 이유: Batch1에서 550 미만(단수명) 셀이 36개 중 1개뿐이라 단수명 클래스를 학습할 수 없음
 
 
+## 주요 시각자료
+| 무엇을 보여주나 | 그림 |
+|---|---|
+| 배치마다 수명 분포가 다르다 (Test가 Train 범위 밖) | [q1_cycle_life_hist.png](results/figures/q1_cycle_life_hist.png) |
+| 열화는 가속되고, 100사이클까지는 셀 구별이 안 된다 | [q2_qd_curves_all.png](results/figures/q2_qd_curves_all.png), [q2_knee_vs_life.png](results/figures/q2_knee_vs_life.png) |
+| ΔQ(V)에서 단수명·장수명이 갈린다 (핵심 피처 근거) | [q3_delta_q_curves.png](results/figures/q3_delta_q_curves.png) |
+| 충전 정책별 평균 수명 | [q4_life_by_policy.png](results/figures/q4_life_by_policy.png) |
+| 피처 상관과 다중공선성 | [q5_corr_with_life.png](results/figures/q5_corr_with_life.png), [q5_feature_corr.png](results/figures/q5_feature_corr.png) |
+| 모델 13개 Valid 비교 → Baseline 선택 | [model_selection_boxplot.png](results/figures/model_selection_boxplot.png) |
+| 트리 모델은 Train 범위 밖을 예측 못 한다 | [diag_extrapolation.png](results/figures/diag_extrapolation.png) |
+| Batch2 오차의 원인 (같은 피처에서 수명이 다름) | [batch_shift.png](results/figures/batch_shift.png) |
+
+
 ## 파일 구조
 ```
 ├── data/
@@ -62,6 +75,16 @@ python -m src.features       # 피처 생성
 python -m src.train          # 학습·평가 → results/model_performance.csv
 ```
 
+검증 실험 재현 (결과는 `results/`, 실행 시간은 맥 기준 대략치)
+```bash
+python -m experiments.split_leakage_check   # 분할 방식별 누수 확인 (~1분)
+python -m experiments.model_diagnostics     # 피처 의존도·외삽 확인 (~30초)
+python -m experiments.batch_shift_analysis  # Batch2 오차 원인 (~10초)
+python -m experiments.model_selection       # 최종 모델 선택, 20회 반복 (~2분)
+python -m experiments.model_zoo             # 후보 밖 모델 10개 비교 (~5분)
+python -m experiments.tuning_deep           # 넓은 하이퍼파라미터 탐색 (~5분)
+```
+
 
 ## EDA
 (상세: `notebooks/01_EDA.ipynb`, `docs/DS-MINI-Design-울산_2반-변현준.pdf`)
@@ -75,19 +98,27 @@ python -m src.train          # 학습·평가 → results/model_performance.csv
   - Batch1 최단수명 2셀(534·559)은 5.4C(80%) 급속충전, 초기 충전시간 9.0분(Batch1 최단)
   - 핵심 발견 : **Test 셀 대부분이 Train 수명 범위 밖** → 범위 밖도 예측하는(외삽) 선형 모델과 log 타깃이 필요
 
+  <img src="results/figures/q1_cycle_life_hist.png" width="600" alt="배치별 수명 분포">
+
 - 열화 곡선 분석
   - 장수명·단수명 모두 초반에는 거의 평평하다가 급격히 꺾임 (수명 마지막 10% 구간 감소 속도가 10~20% 구간의 약 25배)
   - Knee point는 수명의 약 75% 지점 (Batch1)
   - 핵심 발견 : **100사이클 시점의 용량 숫자로는 셀 구별이 안 됨** (1.06~1.10Ah에 모두 겹침)
+
+  <img src="results/figures/q2_qd_curves_all.png" width="750" alt="배치별 열화 곡선">
 
 - ΔQ(V) 곡선 분석
   - ΔQ(V) = Q₁₀₀(V) − Q₁₀(V), 단수명 셀은 3.0V 부근에서 크게 음수 (평균 −0.058 vs 장수명 −0.018Ah)
   - ΔQ 분산(log) 중앙값 단수명 −3.42 vs 장수명 −4.25
   - 핵심 발견 : **용량 숫자에 안 보이던 열화가 곡선 모양에서 보임**, `dQ_log_var`와 log 수명 상관 r = −0.84 (Batch1)
 
+  <img src="results/figures/q3_delta_q_curves.png" width="750" alt="ΔQ(V) 곡선">
+
 - 충전 속도(C-rate)와 수명의 관계
   - Batch1 정책 20개 평균 수명 547(5.4C(80%)) ~ 1,074(4.4C(80%))
   - 핵심 발견 : **C-rate 자체(ρ = −0.24)보다 충전시간(ρ = +0.43)이 수명과 더 관련**, 충전시간이 짧을수록 열화 속도가 빠름(ρ = −0.53)
+
+  <img src="results/figures/q4_life_by_policy.png" width="500" alt="Batch1 충전 정책별 평균 수명">
 
 - 추가 확인 : 상관관계·다중공선성
   - dQ 피처끼리 상관 최대 0.98 (dQ_log_var ↔ dQ_log_mean) → 규제 또는 피처 축소 필요
@@ -129,13 +160,17 @@ python -m src.train          # 학습·평가 → results/model_performance.csv
 | Voting (EN+LGBM) | 11.28% | 2.77 | 2/20 |
 | LightGBM | 12.73% | 3.45 | 1/20 |
 
+<img src="results/figures/model_selection_boxplot.png" width="600" alt="모델별 Valid MAPE 분포">
+
 - 해석
   - Baseline이 평균·안정성 모두 가장 좋지만, 선형 계열과의 차이는 1%p 안팎으로 작음 → "Baseline보다 낫다는 일관된 증거가 있는 모델이 없다"가 정확한 표현
   - Huber는 20번 중 11번 이겼지만 가끔 크게 틀려 평균이 1.1%p 나쁨
 - DAY1 전략(Voting)에서 바꾼 이유
   - Train 29셀 + 강한 단일 신호(r = −0.84) → 피처·모델을 복잡하게 할수록 정보보다 흔들림(분산)이 커짐
   - ElasticNet도 L1 규제로 결국 `dQ_log_var` 위주가 됨 (나머지 계수 대부분 0)
-  - 트리 계열(LightGBM·RF·XGBoost)과 KNN은 **Train 범위 밖 예측 불가** → Batch3 예측 최대가 862~906에 막힘
+  - 트리 계열(LightGBM·RF·XGBoost)과 KNN은 **Train 범위 밖 예측 불가** → Batch3 예측 최대가 862~906에 막힘 (아래 그림 주황 점이 수평으로 누움)
+
+    <img src="results/figures/diag_extrapolation.png" width="750" alt="실제 vs 예측: 외삽">
   - 넓게 튜닝해도 못 이김. 튜닝 중 CV 점수가 실제보다 좋아 보이는 착시도 생김 (SVR: CV 10.1% → Valid 13.5%)
 - 참고 Test에서는 Huber·규제 없는 선형이 Batch3 11.3%로 Baseline(12.2%)보다 좋았지만, Test로 모델을 고르면 누수이므로 선택에 반영하지 않음
 
@@ -168,6 +203,8 @@ MAPE는 낮을수록 좋으므로 Gap은 "(+) = 문제 의심"이 되도록 **�
   - **Batch2** : 39셀 중 95%를 길게 예측. 오차 상위는 `newstructure` 표시가 없는 일반 셀
     (예: b2_c06 실제 393 → 예측 723, 3.6C(9%)-5C). 일반 30셀 MAPE 33.9% vs newstructure 9셀 15.4%
   - **Batch3** : 오차 상위는 수명 1,600 이상 장수명 셀을 짧게 예측 (b3_c38 실제 1,935 → 1,101). Train 수명 최대(1,054, 정책 Hold-out 후 29셀 기준) 초과 17셀 MAPE 15.9% vs 범위 안 27셀 9.8%
+<img src="results/figures/batch_shift.png" width="800" alt="배치별 피처-수명 관계와 같은 정책의 수명">
+
 - 원인 가설
   1. **Batch2 일반 셀은 "ΔQ → 수명" 관계 자체가 다름** (가장 큰 원인)
      - 같은 `dQ_log_var` 값에서 Batch1보다 수명이 약 30% 짧음 (Train 회귀선 대비 평균 잔차 +31.8%, 30셀 모두 같은 방향)
