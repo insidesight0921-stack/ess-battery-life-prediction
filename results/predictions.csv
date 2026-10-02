@@ -1,0 +1,361 @@
+cell_id,model,split,cycle_life,pred
+b2_c00,Baseline (Variance),Test (Batch2),477.0,675.6
+b2_c01,Baseline (Variance),Test (Batch2),491.0,566.3
+b2_c02,Baseline (Variance),Test (Batch2),424.0,688.8
+b2_c03,Baseline (Variance),Test (Batch2),499.0,699.5
+b2_c04,Baseline (Variance),Test (Batch2),444.0,579.1
+b2_c05,Baseline (Variance),Test (Batch2),416.0,491.7
+b2_c06,Baseline (Variance),Test (Batch2),393.0,723.1
+b2_c07,Baseline (Variance),Test (Batch2),777.0,1173.9
+b2_c08,Baseline (Variance),Test (Batch2),904.0,914.9
+b2_c09,Baseline (Variance),Test (Batch2),791.0,930.0
+b2_c10,Baseline (Variance),Test (Batch2),492.0,654.0
+b2_c11,Baseline (Variance),Test (Batch2),449.0,609.0
+b2_c12,Baseline (Variance),Test (Batch2),466.0,548.6
+b2_c13,Baseline (Variance),Test (Batch2),460.0,550.8
+b2_c14,Baseline (Variance),Test (Batch2),426.0,508.1
+b2_c15,Baseline (Variance),Test (Batch2),396.0,609.9
+b2_c16,Baseline (Variance),Test (Batch2),472.0,636.8
+b2_c17,Baseline (Variance),Test (Batch2),471.0,626.9
+b2_c18,Baseline (Variance),Test (Batch2),449.0,678.3
+b2_c19,Baseline (Variance),Test (Batch2),392.0,562.9
+b2_c20,Baseline (Variance),Test (Batch2),489.0,606.2
+b2_c21,Baseline (Variance),Test (Batch2),408.0,577.5
+b2_c24,Baseline (Variance),Test (Batch2),514.0,677.7
+b2_c25,Baseline (Variance),Test (Batch2),493.0,659.0
+b2_c26,Baseline (Variance),Test (Batch2),450.0,496.4
+b2_c27,Baseline (Variance),Test (Batch2),474.0,667.7
+b2_c28,Baseline (Variance),Test (Batch2),437.0,608.8
+b2_c29,Baseline (Variance),Test (Batch2),452.0,640.3
+b2_c30,Baseline (Variance),Test (Batch2),412.0,526.5
+b2_c31,Baseline (Variance),Test (Batch2),425.0,466.6
+b2_c32,Baseline (Variance),Test (Batch2),809.0,947.3
+b2_c33,Baseline (Variance),Test (Batch2),1140.0,1060.1
+b2_c34,Baseline (Variance),Test (Batch2),1186.0,1178.2
+b2_c41,Baseline (Variance),Test (Batch2),442.0,527.4
+b2_c42,Baseline (Variance),Test (Batch2),474.0,606.4
+b2_c43,Baseline (Variance),Test (Batch2),1029.0,1074.3
+b2_c44,Baseline (Variance),Test (Batch2),841.0,1126.7
+b2_c45,Baseline (Variance),Test (Batch2),997.0,1050.7
+b2_c46,Baseline (Variance),Test (Batch2),503.0,676.0
+b3_c00,Baseline (Variance),Test (Batch3),1009.0,1029.6
+b3_c01,Baseline (Variance),Test (Batch3),1063.0,1040.2
+b3_c02,Baseline (Variance),Test (Batch3),1267.0,1187.5
+b3_c03,Baseline (Variance),Test (Batch3),1115.0,957.4
+b3_c04,Baseline (Variance),Test (Batch3),1048.0,1002.4
+b3_c05,Baseline (Variance),Test (Batch3),828.0,943.4
+b3_c06,Baseline (Variance),Test (Batch3),667.0,650.0
+b3_c07,Baseline (Variance),Test (Batch3),1836.0,1212.5
+b3_c08,Baseline (Variance),Test (Batch3),828.0,951.4
+b3_c09,Baseline (Variance),Test (Batch3),1039.0,883.3
+b3_c10,Baseline (Variance),Test (Batch3),1078.0,1153.7
+b3_c11,Baseline (Variance),Test (Batch3),817.0,829.8
+b3_c12,Baseline (Variance),Test (Batch3),932.0,853.1
+b3_c13,Baseline (Variance),Test (Batch3),816.0,939.5
+b3_c14,Baseline (Variance),Test (Batch3),858.0,895.5
+b3_c15,Baseline (Variance),Test (Batch3),876.0,881.9
+b3_c16,Baseline (Variance),Test (Batch3),1638.0,1376.5
+b3_c17,Baseline (Variance),Test (Batch3),1315.0,1172.2
+b3_c18,Baseline (Variance),Test (Batch3),1146.0,1031.9
+b3_c19,Baseline (Variance),Test (Batch3),1155.0,977.6
+b3_c20,Baseline (Variance),Test (Batch3),813.0,943.3
+b3_c21,Baseline (Variance),Test (Batch3),772.0,728.1
+b3_c22,Baseline (Variance),Test (Batch3),1002.0,913.1
+b3_c24,Baseline (Variance),Test (Batch3),825.0,962.0
+b3_c25,Baseline (Variance),Test (Batch3),989.0,965.1
+b3_c26,Baseline (Variance),Test (Batch3),1028.0,1014.2
+b3_c27,Baseline (Variance),Test (Batch3),850.0,952.1
+b3_c28,Baseline (Variance),Test (Batch3),541.0,619.4
+b3_c29,Baseline (Variance),Test (Batch3),858.0,915.6
+b3_c30,Baseline (Variance),Test (Batch3),935.0,972.3
+b3_c31,Baseline (Variance),Test (Batch3),731.0,791.7
+b3_c33,Baseline (Variance),Test (Batch3),1284.0,1124.9
+b3_c34,Baseline (Variance),Test (Batch3),1158.0,1070.5
+b3_c35,Baseline (Variance),Test (Batch3),1093.0,1020.1
+b3_c36,Baseline (Variance),Test (Batch3),923.0,1032.2
+b3_c37,Baseline (Variance),Test (Batch3),1390.0,1669.6
+b3_c38,Baseline (Variance),Test (Batch3),1935.0,1100.6
+b3_c39,Baseline (Variance),Test (Batch3),1156.0,1178.5
+b3_c40,Baseline (Variance),Test (Batch3),796.0,1081.8
+b3_c41,Baseline (Variance),Test (Batch3),786.0,1007.8
+b3_c42,Baseline (Variance),Test (Batch3),1642.0,1135.3
+b3_c43,Baseline (Variance),Test (Batch3),1046.0,977.7
+b3_c44,Baseline (Variance),Test (Batch3),940.0,965.8
+b3_c45,Baseline (Variance),Test (Batch3),1801.0,1226.6
+b1_c05,Baseline (Variance),Valid,1074.0,980.0
+b1_c06,Baseline (Variance),Valid,636.0,765.6
+b1_c07,Baseline (Variance),Valid,870.0,790.9
+b1_c38,Baseline (Variance),Valid,617.0,616.0
+b1_c39,Baseline (Variance),Valid,625.0,646.3
+b1_c40,Baseline (Variance),Valid,966.0,939.9
+b1_c41,Baseline (Variance),Valid,1051.0,923.7
+b2_c00,ElasticNet,Test (Batch2),477.0,683.5
+b2_c01,ElasticNet,Test (Batch2),491.0,589.1
+b2_c02,ElasticNet,Test (Batch2),424.0,697.5
+b2_c03,ElasticNet,Test (Batch2),499.0,701.5
+b2_c04,ElasticNet,Test (Batch2),444.0,603.4
+b2_c05,ElasticNet,Test (Batch2),416.0,523.6
+b2_c06,ElasticNet,Test (Batch2),393.0,724.9
+b2_c07,ElasticNet,Test (Batch2),777.0,1094.3
+b2_c08,ElasticNet,Test (Batch2),904.0,861.4
+b2_c09,ElasticNet,Test (Batch2),791.0,876.8
+b2_c10,ElasticNet,Test (Batch2),492.0,668.3
+b2_c11,ElasticNet,Test (Batch2),449.0,629.3
+b2_c12,ElasticNet,Test (Batch2),466.0,576.5
+b2_c13,ElasticNet,Test (Batch2),460.0,578.7
+b2_c14,ElasticNet,Test (Batch2),426.0,541.3
+b2_c15,ElasticNet,Test (Batch2),396.0,630.2
+b2_c16,ElasticNet,Test (Batch2),472.0,651.3
+b2_c17,ElasticNet,Test (Batch2),471.0,644.3
+b2_c18,ElasticNet,Test (Batch2),449.0,691.6
+b2_c19,ElasticNet,Test (Batch2),392.0,588.0
+b2_c20,ElasticNet,Test (Batch2),489.0,626.5
+b2_c21,ElasticNet,Test (Batch2),408.0,599.1
+b2_c24,ElasticNet,Test (Batch2),514.0,688.7
+b2_c25,ElasticNet,Test (Batch2),493.0,673.2
+b2_c26,ElasticNet,Test (Batch2),450.0,530.0
+b2_c27,ElasticNet,Test (Batch2),474.0,681.4
+b2_c28,ElasticNet,Test (Batch2),437.0,630.9
+b2_c29,ElasticNet,Test (Batch2),452.0,656.0
+b2_c30,ElasticNet,Test (Batch2),412.0,557.0
+b2_c31,ElasticNet,Test (Batch2),425.0,491.2
+b2_c32,ElasticNet,Test (Batch2),809.0,907.9
+b2_c33,ElasticNet,Test (Batch2),1140.0,997.9
+b2_c34,ElasticNet,Test (Batch2),1186.0,1088.1
+b2_c41,ElasticNet,Test (Batch2),442.0,556.1
+b2_c42,ElasticNet,Test (Batch2),474.0,628.3
+b2_c43,ElasticNet,Test (Batch2),1029.0,1025.7
+b2_c44,ElasticNet,Test (Batch2),841.0,1049.8
+b2_c45,ElasticNet,Test (Batch2),997.0,986.9
+b2_c46,ElasticNet,Test (Batch2),503.0,685.0
+b3_c00,ElasticNet,Test (Batch3),1009.0,974.6
+b3_c01,ElasticNet,Test (Batch3),1063.0,983.2
+b3_c02,ElasticNet,Test (Batch3),1267.0,1093.8
+b3_c03,ElasticNet,Test (Batch3),1115.0,915.5
+b3_c04,ElasticNet,Test (Batch3),1048.0,953.8
+b3_c05,ElasticNet,Test (Batch3),828.0,909.0
+b3_c06,ElasticNet,Test (Batch3),667.0,660.1
+b3_c07,ElasticNet,Test (Batch3),1836.0,1132.7
+b3_c08,ElasticNet,Test (Batch3),828.0,912.7
+b3_c09,ElasticNet,Test (Batch3),1039.0,860.7
+b3_c10,ElasticNet,Test (Batch3),1078.0,1083.8
+b3_c11,ElasticNet,Test (Batch3),817.0,814.5
+b3_c12,ElasticNet,Test (Batch3),932.0,834.2
+b3_c13,ElasticNet,Test (Batch3),816.0,902.2
+b3_c14,ElasticNet,Test (Batch3),858.0,869.2
+b3_c15,ElasticNet,Test (Batch3),876.0,857.8
+b3_c16,ElasticNet,Test (Batch3),1638.0,1258.9
+b3_c17,ElasticNet,Test (Batch3),1315.0,1089.0
+b3_c18,ElasticNet,Test (Batch3),1146.0,975.7
+b3_c19,ElasticNet,Test (Batch3),1155.0,932.8
+b3_c20,ElasticNet,Test (Batch3),813.0,905.9
+b3_c21,ElasticNet,Test (Batch3),772.0,726.6
+b3_c22,ElasticNet,Test (Batch3),1002.0,883.4
+b3_c24,ElasticNet,Test (Batch3),825.0,924.1
+b3_c25,ElasticNet,Test (Batch3),989.0,921.5
+b3_c26,ElasticNet,Test (Batch3),1028.0,961.1
+b3_c27,ElasticNet,Test (Batch3),850.0,911.9
+b3_c28,ElasticNet,Test (Batch3),541.0,634.1
+b3_c29,ElasticNet,Test (Batch3),858.0,883.9
+b3_c30,ElasticNet,Test (Batch3),935.0,929.3
+b3_c31,ElasticNet,Test (Batch3),731.0,783.8
+b3_c33,ElasticNet,Test (Batch3),1284.0,1048.2
+b3_c34,ElasticNet,Test (Batch3),1158.0,1007.7
+b3_c35,ElasticNet,Test (Batch3),1093.0,968.6
+b3_c36,ElasticNet,Test (Batch3),923.0,976.2
+b3_c37,ElasticNet,Test (Batch3),1390.0,1365.9
+b3_c38,ElasticNet,Test (Batch3),1935.0,1032.0
+b3_c39,ElasticNet,Test (Batch3),1156.0,1096.6
+b3_c40,ElasticNet,Test (Batch3),796.0,1013.9
+b3_c41,ElasticNet,Test (Batch3),786.0,956.7
+b3_c42,ElasticNet,Test (Batch3),1642.0,1192.4
+b3_c43,ElasticNet,Test (Batch3),1046.0,954.8
+b3_c44,ElasticNet,Test (Batch3),940.0,925.0
+b3_c45,ElasticNet,Test (Batch3),1801.0,1143.4
+b1_c05,ElasticNet,Valid,1074.0,943.1
+b1_c06,ElasticNet,Valid,636.0,761.9
+b1_c07,ElasticNet,Valid,870.0,781.2
+b1_c38,ElasticNet,Valid,617.0,635.0
+b1_c39,ElasticNet,Valid,625.0,660.0
+b1_c40,ElasticNet,Valid,966.0,919.7
+b1_c41,ElasticNet,Valid,1051.0,817.4
+b2_c00,LightGBM,Test (Batch2),477.0,613.9
+b2_c01,LightGBM,Test (Batch2),491.0,576.0
+b2_c02,LightGBM,Test (Batch2),424.0,634.0
+b2_c03,LightGBM,Test (Batch2),499.0,619.4
+b2_c04,LightGBM,Test (Batch2),444.0,624.8
+b2_c05,LightGBM,Test (Batch2),416.0,576.0
+b2_c06,LightGBM,Test (Batch2),393.0,687.5
+b2_c07,LightGBM,Test (Batch2),777.0,848.2
+b2_c08,LightGBM,Test (Batch2),904.0,834.2
+b2_c09,LightGBM,Test (Batch2),791.0,836.2
+b2_c10,LightGBM,Test (Batch2),492.0,624.8
+b2_c11,LightGBM,Test (Batch2),449.0,668.6
+b2_c12,LightGBM,Test (Batch2),466.0,624.8
+b2_c13,LightGBM,Test (Batch2),460.0,624.8
+b2_c14,LightGBM,Test (Batch2),426.0,624.8
+b2_c15,LightGBM,Test (Batch2),396.0,628.9
+b2_c16,LightGBM,Test (Batch2),472.0,613.9
+b2_c17,LightGBM,Test (Batch2),471.0,615.5
+b2_c18,LightGBM,Test (Batch2),449.0,654.3
+b2_c19,LightGBM,Test (Batch2),392.0,576.0
+b2_c20,LightGBM,Test (Batch2),489.0,667.3
+b2_c21,LightGBM,Test (Batch2),408.0,576.0
+b2_c24,LightGBM,Test (Batch2),514.0,666.0
+b2_c25,LightGBM,Test (Batch2),493.0,668.5
+b2_c26,LightGBM,Test (Batch2),450.0,624.8
+b2_c27,LightGBM,Test (Batch2),474.0,668.5
+b2_c28,LightGBM,Test (Batch2),437.0,666.0
+b2_c29,LightGBM,Test (Batch2),452.0,642.3
+b2_c30,LightGBM,Test (Batch2),412.0,624.8
+b2_c31,LightGBM,Test (Batch2),425.0,624.4
+b2_c32,LightGBM,Test (Batch2),809.0,857.7
+b2_c33,LightGBM,Test (Batch2),1140.0,857.7
+b2_c34,LightGBM,Test (Batch2),1186.0,858.8
+b2_c41,LightGBM,Test (Batch2),442.0,624.8
+b2_c42,LightGBM,Test (Batch2),474.0,624.8
+b2_c43,LightGBM,Test (Batch2),1029.0,857.7
+b2_c44,LightGBM,Test (Batch2),841.0,858.8
+b2_c45,LightGBM,Test (Batch2),997.0,857.2
+b2_c46,LightGBM,Test (Batch2),503.0,613.9
+b3_c00,LightGBM,Test (Batch3),1009.0,862.6
+b3_c01,LightGBM,Test (Batch3),1063.0,858.4
+b3_c02,LightGBM,Test (Batch3),1267.0,834.4
+b3_c03,LightGBM,Test (Batch3),1115.0,844.9
+b3_c04,LightGBM,Test (Batch3),1048.0,828.4
+b3_c05,LightGBM,Test (Batch3),828.0,858.4
+b3_c06,LightGBM,Test (Batch3),667.0,578.6
+b3_c07,LightGBM,Test (Batch3),1836.0,806.2
+b3_c08,LightGBM,Test (Batch3),828.0,863.8
+b3_c09,LightGBM,Test (Batch3),1039.0,890.3
+b3_c10,LightGBM,Test (Batch3),1078.0,788.1
+b3_c11,LightGBM,Test (Batch3),817.0,893.8
+b3_c12,LightGBM,Test (Batch3),932.0,874.0
+b3_c13,LightGBM,Test (Batch3),816.0,847.7
+b3_c14,LightGBM,Test (Batch3),858.0,861.3
+b3_c15,LightGBM,Test (Batch3),876.0,895.3
+b3_c16,LightGBM,Test (Batch3),1638.0,815.7
+b3_c17,LightGBM,Test (Batch3),1315.0,846.8
+b3_c18,LightGBM,Test (Batch3),1146.0,858.4
+b3_c19,LightGBM,Test (Batch3),1155.0,858.4
+b3_c20,LightGBM,Test (Batch3),813.0,858.8
+b3_c21,LightGBM,Test (Batch3),772.0,647.5
+b3_c22,LightGBM,Test (Batch3),1002.0,858.4
+b3_c24,LightGBM,Test (Batch3),825.0,842.7
+b3_c25,LightGBM,Test (Batch3),989.0,842.7
+b3_c26,LightGBM,Test (Batch3),1028.0,857.5
+b3_c27,LightGBM,Test (Batch3),850.0,846.9
+b3_c28,LightGBM,Test (Batch3),541.0,578.6
+b3_c29,LightGBM,Test (Batch3),858.0,845.1
+b3_c30,LightGBM,Test (Batch3),935.0,838.8
+b3_c31,LightGBM,Test (Batch3),731.0,857.5
+b3_c33,LightGBM,Test (Batch3),1284.0,842.7
+b3_c34,LightGBM,Test (Batch3),1158.0,858.4
+b3_c35,LightGBM,Test (Batch3),1093.0,856.7
+b3_c36,LightGBM,Test (Batch3),923.0,858.4
+b3_c37,LightGBM,Test (Batch3),1390.0,798.3
+b3_c38,LightGBM,Test (Batch3),1935.0,858.4
+b3_c39,LightGBM,Test (Batch3),1156.0,828.4
+b3_c40,LightGBM,Test (Batch3),796.0,846.9
+b3_c41,LightGBM,Test (Batch3),786.0,842.7
+b3_c42,LightGBM,Test (Batch3),1642.0,801.4
+b3_c43,LightGBM,Test (Batch3),1046.0,851.9
+b3_c44,LightGBM,Test (Batch3),940.0,848.2
+b3_c45,LightGBM,Test (Batch3),1801.0,802.8
+b1_c05,LightGBM,Valid,1074.0,812.5
+b1_c06,LightGBM,Valid,636.0,853.3
+b1_c07,LightGBM,Valid,870.0,856.9
+b1_c38,LightGBM,Valid,617.0,668.5
+b1_c39,LightGBM,Valid,625.0,659.0
+b1_c40,LightGBM,Valid,966.0,899.1
+b1_c41,LightGBM,Valid,1051.0,787.3
+b2_c00,Voting (EN+LGBM),Test (Batch2),477.0,647.8
+b2_c01,Voting (EN+LGBM),Test (Batch2),491.0,582.5
+b2_c02,Voting (EN+LGBM),Test (Batch2),424.0,665.0
+b2_c03,Voting (EN+LGBM),Test (Batch2),499.0,659.2
+b2_c04,Voting (EN+LGBM),Test (Batch2),444.0,614.0
+b2_c05,Voting (EN+LGBM),Test (Batch2),416.0,549.2
+b2_c06,Voting (EN+LGBM),Test (Batch2),393.0,706.0
+b2_c07,Voting (EN+LGBM),Test (Batch2),777.0,963.4
+b2_c08,Voting (EN+LGBM),Test (Batch2),904.0,847.7
+b2_c09,Voting (EN+LGBM),Test (Batch2),791.0,856.2
+b2_c10,Voting (EN+LGBM),Test (Batch2),492.0,646.2
+b2_c11,Voting (EN+LGBM),Test (Batch2),449.0,648.6
+b2_c12,Voting (EN+LGBM),Test (Batch2),466.0,600.2
+b2_c13,Voting (EN+LGBM),Test (Batch2),460.0,601.3
+b2_c14,Voting (EN+LGBM),Test (Batch2),426.0,581.6
+b2_c15,Voting (EN+LGBM),Test (Batch2),396.0,629.6
+b2_c16,Voting (EN+LGBM),Test (Batch2),472.0,632.4
+b2_c17,Voting (EN+LGBM),Test (Batch2),471.0,629.8
+b2_c18,Voting (EN+LGBM),Test (Batch2),449.0,672.7
+b2_c19,Voting (EN+LGBM),Test (Batch2),392.0,582.0
+b2_c20,Voting (EN+LGBM),Test (Batch2),489.0,646.6
+b2_c21,Voting (EN+LGBM),Test (Batch2),408.0,587.4
+b2_c24,Voting (EN+LGBM),Test (Batch2),514.0,677.2
+b2_c25,Voting (EN+LGBM),Test (Batch2),493.0,670.8
+b2_c26,Voting (EN+LGBM),Test (Batch2),450.0,575.5
+b2_c27,Voting (EN+LGBM),Test (Batch2),474.0,674.9
+b2_c28,Voting (EN+LGBM),Test (Batch2),437.0,648.2
+b2_c29,Voting (EN+LGBM),Test (Batch2),452.0,649.1
+b2_c30,Voting (EN+LGBM),Test (Batch2),412.0,589.9
+b2_c31,Voting (EN+LGBM),Test (Batch2),425.0,553.8
+b2_c32,Voting (EN+LGBM),Test (Batch2),809.0,882.4
+b2_c33,Voting (EN+LGBM),Test (Batch2),1140.0,925.1
+b2_c34,Voting (EN+LGBM),Test (Batch2),1186.0,966.7
+b2_c41,Voting (EN+LGBM),Test (Batch2),442.0,589.5
+b2_c42,Voting (EN+LGBM),Test (Batch2),474.0,626.5
+b2_c43,Voting (EN+LGBM),Test (Batch2),1029.0,938.0
+b2_c44,Voting (EN+LGBM),Test (Batch2),841.0,949.5
+b2_c45,Voting (EN+LGBM),Test (Batch2),997.0,919.8
+b2_c46,Voting (EN+LGBM),Test (Batch2),503.0,648.5
+b3_c00,Voting (EN+LGBM),Test (Batch3),1009.0,916.9
+b3_c01,Voting (EN+LGBM),Test (Batch3),1063.0,918.7
+b3_c02,Voting (EN+LGBM),Test (Batch3),1267.0,955.3
+b3_c03,Voting (EN+LGBM),Test (Batch3),1115.0,879.5
+b3_c04,Voting (EN+LGBM),Test (Batch3),1048.0,888.9
+b3_c05,Voting (EN+LGBM),Test (Batch3),828.0,883.3
+b3_c06,Voting (EN+LGBM),Test (Batch3),667.0,618.0
+b3_c07,Voting (EN+LGBM),Test (Batch3),1836.0,955.6
+b3_c08,Voting (EN+LGBM),Test (Batch3),828.0,887.9
+b3_c09,Voting (EN+LGBM),Test (Batch3),1039.0,875.4
+b3_c10,Voting (EN+LGBM),Test (Batch3),1078.0,924.2
+b3_c11,Voting (EN+LGBM),Test (Batch3),817.0,853.2
+b3_c12,Voting (EN+LGBM),Test (Batch3),932.0,853.9
+b3_c13,Voting (EN+LGBM),Test (Batch3),816.0,874.5
+b3_c14,Voting (EN+LGBM),Test (Batch3),858.0,865.2
+b3_c15,Voting (EN+LGBM),Test (Batch3),876.0,876.3
+b3_c16,Voting (EN+LGBM),Test (Batch3),1638.0,1013.3
+b3_c17,Voting (EN+LGBM),Test (Batch3),1315.0,960.3
+b3_c18,Voting (EN+LGBM),Test (Batch3),1146.0,915.2
+b3_c19,Voting (EN+LGBM),Test (Batch3),1155.0,894.8
+b3_c20,Voting (EN+LGBM),Test (Batch3),813.0,882.1
+b3_c21,Voting (EN+LGBM),Test (Batch3),772.0,685.9
+b3_c22,Voting (EN+LGBM),Test (Batch3),1002.0,870.8
+b3_c24,Voting (EN+LGBM),Test (Batch3),825.0,882.5
+b3_c25,Voting (EN+LGBM),Test (Batch3),989.0,881.2
+b3_c26,Voting (EN+LGBM),Test (Batch3),1028.0,907.9
+b3_c27,Voting (EN+LGBM),Test (Batch3),850.0,878.8
+b3_c28,Voting (EN+LGBM),Test (Batch3),541.0,605.7
+b3_c29,Voting (EN+LGBM),Test (Batch3),858.0,864.3
+b3_c30,Voting (EN+LGBM),Test (Batch3),935.0,882.9
+b3_c31,Voting (EN+LGBM),Test (Batch3),731.0,819.8
+b3_c33,Voting (EN+LGBM),Test (Batch3),1284.0,939.8
+b3_c34,Voting (EN+LGBM),Test (Batch3),1158.0,930.0
+b3_c35,Voting (EN+LGBM),Test (Batch3),1093.0,910.9
+b3_c36,Voting (EN+LGBM),Test (Batch3),923.0,915.4
+b3_c37,Voting (EN+LGBM),Test (Batch3),1390.0,1044.2
+b3_c38,Voting (EN+LGBM),Test (Batch3),1935.0,941.2
+b3_c39,Voting (EN+LGBM),Test (Batch3),1156.0,953.1
+b3_c40,Voting (EN+LGBM),Test (Batch3),796.0,926.6
+b3_c41,Voting (EN+LGBM),Test (Batch3),786.0,897.9
+b3_c42,Voting (EN+LGBM),Test (Batch3),1642.0,977.5
+b3_c43,Voting (EN+LGBM),Test (Batch3),1046.0,901.9
+b3_c44,Voting (EN+LGBM),Test (Batch3),940.0,885.7
+b3_c45,Voting (EN+LGBM),Test (Batch3),1801.0,958.1
+b1_c05,Voting (EN+LGBM),Valid,1074.0,875.4
+b1_c06,Voting (EN+LGBM),Valid,636.0,806.3
+b1_c07,Voting (EN+LGBM),Valid,870.0,818.2
+b1_c38,Voting (EN+LGBM),Valid,617.0,651.5
+b1_c39,Voting (EN+LGBM),Valid,625.0,659.5
+b1_c40,Voting (EN+LGBM),Valid,966.0,909.3
+b1_c41,Voting (EN+LGBM),Valid,1051.0,802.2

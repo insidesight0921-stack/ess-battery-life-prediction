@@ -1,0 +1,37 @@
+model,split,MAPE(%),RMSE(cycle),note
+Baseline (Variance),Train (Batch1 CV),9.075,93.296,
+Baseline (Variance),Valid (Batch1 Hold-out),7.446,88.333,
+Baseline (Variance),Test (Batch2),28.232,161.032,
+Baseline (Variance),Test (Batch3),12.09,230.18,
+Baseline (Variance),Gap (Train-Valid),1.629,,(+): 과적합 의심 / MAPE는 낮을수록 좋으므로 음수면 Valid가 더 나쁨
+Baseline (Variance),Gap (Valid-Test),-20.787,,음수: 배치 간 일반화 저하
+Baseline (Variance),Gap (Target-Test B2),-19.132,,원 논문 9.1% 대비
+Baseline (Variance),Gap (Batch2-Batch3),16.142,,Test 성능 간 비교
+Baseline (Variance),Gap (Target-Test B3),-2.99,,원 논문 9.1% 대비
+ElasticNet,Train (Batch1 CV),10.022,103.608,
+ElasticNet,Valid (Batch1 Hold-out),8.938,95.77,
+ElasticNet,Test (Batch2),31.306,167.852,
+ElasticNet,Test (Batch3),12.832,253.818,
+ElasticNet,Gap (Train-Valid),1.085,,(+): 과적합 의심 / MAPE는 낮을수록 좋으므로 음수면 Valid가 더 나쁨
+ElasticNet,Gap (Valid-Test),-22.369,,음수: 배치 간 일반화 저하
+ElasticNet,Gap (Target-Test B2),-22.206,,원 논문 9.1% 대비
+ElasticNet,Gap (Batch2-Batch3),18.474,,Test 성능 간 비교
+ElasticNet,Gap (Target-Test B3),-3.732,,원 논문 9.1% 대비
+LightGBM,Train (Batch1 CV),9.984,95.041,
+LightGBM,Valid (Batch1 Hold-out),13.579,141.37,
+LightGBM,Test (Batch2),35.59,184.654,
+LightGBM,Test (Batch3),18.811,366.165,
+LightGBM,Gap (Train-Valid),-3.595,,(+): 과적합 의심 / MAPE는 낮을수록 좋으므로 음수면 Valid가 더 나쁨
+LightGBM,Gap (Valid-Test),-22.011,,음수: 배치 간 일반화 저하
+LightGBM,Gap (Target-Test B2),-26.49,,원 논문 9.1% 대비
+LightGBM,Gap (Batch2-Batch3),16.778,,Test 성능 간 비교
+LightGBM,Gap (Target-Test B3),-9.711,,원 논문 9.1% 대비
+Voting (EN+LGBM),Train (Batch1 CV),9.767,94.958,
+Voting (EN+LGBM),Valid (Batch1 Hold-out),11.083,117.127,
+Voting (EN+LGBM),Test (Batch2),33.287,170.164,
+Voting (EN+LGBM),Test (Batch3),15.668,307.883,
+Voting (EN+LGBM),Gap (Train-Valid),-1.317,,(+): 과적합 의심 / MAPE는 낮을수록 좋으므로 음수면 Valid가 더 나쁨
+Voting (EN+LGBM),Gap (Valid-Test),-22.203,,음수: 배치 간 일반화 저하
+Voting (EN+LGBM),Gap (Target-Test B2),-24.187,,원 논문 9.1% 대비
+Voting (EN+LGBM),Gap (Batch2-Batch3),17.618,,Test 성능 간 비교
+Voting (EN+LGBM),Gap (Target-Test B3),-6.568,,원 논문 9.1% 대비

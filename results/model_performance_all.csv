@@ -1,0 +1,37 @@
+model,split,MAPE(%),RMSE(cycle),note
+Baseline (Variance),Train (Batch1 CV),9.17,94.23,정책 단위 5-fold CV 평균
+Baseline (Variance),Valid (Batch1 Hold-out),8.09,83.87,정책 단위 Hold-out 20%
+Baseline (Variance),Test (Batch2),29.62,168.04,최종 평가
+Baseline (Variance),Gap (Train-Valid),-1.08,,"Valid−Train 오차, (+): 과적합 의심"
+Baseline (Variance),Gap (Valid-Test),21.53,,"Test−Valid 오차, (+): 배치 간 일반화 저하 의심"
+Baseline (Variance),Gap (Target-Test),20.52,,"Test−9.1%, (+): 원 논문 목표 미달"
+Baseline (Variance),Test (Batch3),12.16,226.49,추가 검증
+Baseline (Variance),Gap (Batch2-Batch3),17.46,,"Batch2−Batch3 오차, (+): Batch2가 더 나쁨"
+Baseline (Variance),Gap (Target-Test B3),3.06,,"Batch3−9.1%, (+): 원 논문 목표 미달"
+ElasticNet,Train (Batch1 CV),9.78,96.77,정책 단위 5-fold CV 평균
+ElasticNet,Valid (Batch1 Hold-out),11.1,119.01,정책 단위 Hold-out 20%
+ElasticNet,Test (Batch2),32.37,173.07,최종 평가
+ElasticNet,Gap (Train-Valid),1.33,,"Valid−Train 오차, (+): 과적합 의심"
+ElasticNet,Gap (Valid-Test),21.26,,"Test−Valid 오차, (+): 배치 간 일반화 저하 의심"
+ElasticNet,Gap (Target-Test),23.27,,"Test−9.1%, (+): 원 논문 목표 미달"
+ElasticNet,Test (Batch3),12.34,243.67,추가 검증
+ElasticNet,Gap (Batch2-Batch3),20.03,,"Batch2−Batch3 오차, (+): Batch2가 더 나쁨"
+ElasticNet,Gap (Target-Test B3),3.24,,"Batch3−9.1%, (+): 원 논문 목표 미달"
+LightGBM,Train (Batch1 CV),10.19,97.25,정책 단위 5-fold CV 평균
+LightGBM,Valid (Batch1 Hold-out),15.12,166.31,정책 단위 Hold-out 20%
+LightGBM,Test (Batch2),33.42,177.84,최종 평가
+LightGBM,Gap (Train-Valid),4.93,,"Valid−Train 오차, (+): 과적합 의심"
+LightGBM,Gap (Valid-Test),18.3,,"Test−Valid 오차, (+): 배치 간 일반화 저하 의심"
+LightGBM,Gap (Target-Test),24.32,,"Test−9.1%, (+): 원 논문 목표 미달"
+LightGBM,Test (Batch3),19.55,383.08,추가 검증
+LightGBM,Gap (Batch2-Batch3),13.87,,"Batch2−Batch3 오차, (+): Batch2가 더 나쁨"
+LightGBM,Gap (Target-Test B3),10.45,,"Batch3−9.1%, (+): 원 논문 목표 미달"
+Voting (EN+LGBM),Train (Batch1 CV),9.22,92.32,정책 단위 5-fold CV 평균
+Voting (EN+LGBM),Valid (Batch1 Hold-out),13.13,140.74,정책 단위 Hold-out 20%
+Voting (EN+LGBM),Test (Batch2),32.79,169.49,최종 평가
+Voting (EN+LGBM),Gap (Train-Valid),3.91,,"Valid−Train 오차, (+): 과적합 의심"
+Voting (EN+LGBM),Gap (Valid-Test),19.66,,"Test−Valid 오차, (+): 배치 간 일반화 저하 의심"
+Voting (EN+LGBM),Gap (Target-Test),23.69,,"Test−9.1%, (+): 원 논문 목표 미달"
+Voting (EN+LGBM),Test (Batch3),15.97,313.39,추가 검증
+Voting (EN+LGBM),Gap (Batch2-Batch3),16.81,,"Batch2−Batch3 오차, (+): Batch2가 더 나쁨"
+Voting (EN+LGBM),Gap (Target-Test B3),6.87,,"Batch3−9.1%, (+): 원 논문 목표 미달"

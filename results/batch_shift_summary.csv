@@ -1,0 +1,5 @@
+group,cells,life_median,dQ_var_median,in_train_range,resid_mean_pct,mape_pct
+B1 (Train),36,772.5,-3.774,1.0,0.525,8.368
+B2 일반,30,451.0,-3.415,0.6,31.814,31.814
+B2 newstructure,9,904.0,-4.278,0.333,16.905,17.861
+B3 (newstructure),44,1005.5,-4.152,0.523,1.0,12.289

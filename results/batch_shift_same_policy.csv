@@ -1,0 +1,11 @@
+policy_base,group,size,mean
+4.8C(80%)-4.8C,B1 (Train),2,753.0
+4.8C(80%)-4.8C,B2 newstructure,3,871.7
+4.8C(80%)-4.8C,B2 일반,5,483.6
+4.8C(80%)-4.8C,B3 (newstructure),6,1564.2
+5.2C(58%)-4C,B2 newstructure,3,961.7
+5.2C(58%)-4C,B2 일반,4,477.8
+5.6C(26%)-4.5C,B2 newstructure,3,991.3
+5.6C(26%)-4.5C,B2 일반,6,448.5
+6C(60%)-3C,B1 (Train),2,744.0
+6C(60%)-3C,B2 일반,2,400.0
